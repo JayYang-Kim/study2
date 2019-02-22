@@ -1,7 +1,19 @@
+<%@page import="com.score.ScoreDTO"%>
+<%@page import="com.score.ScoreDAO"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%
+	ScoreDAO dao = new ScoreDAO();
+
+	String hak = request.getParameter("hak");
+	String pageNum = request.getParameter("page");
 	int rows = Integer.parseInt(request.getParameter("rows"));
+	
+	ScoreDTO dto = dao.readScroe(hak);
+	if(dto == null) {
+		response.sendRedirect("list.jsp?page" + pageNum + "%rows=" + rows);
+		return;
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -81,50 +93,51 @@
 				<div class="title">
 					<h3>성적처리</h3>
 				</div>
-				<form name="scoreForm" action="write_ok.jsp" method="post">
+				<form name="scoreForm" action="update_ok.jsp" method="post">
 					<table class="tb2">
 						<tr>
 							<th>학번</th>
 							<td>
-								<input type="text" name="hak" class="boxTF" maxlength="10"/>
+								<input type="text" name="hak" class="boxTF" maxlength="10" value="<%= dto.getHak()%>" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
 							<th>이름</th>
 							<td>
-								<input type="text" name="name" class="boxTF" maxlength="10"/>
+								<input type="text" name="name" class="boxTF" maxlength="10" value="<%= dto.getName()%>"/>
 							</td>
 						</tr>
 						<tr>
 							<th>생년월일</th>
 							<td>
-								<input type="text" name="birth" class="boxTF" maxlength="10"/>
+								<input type="text" name="birth" class="boxTF" maxlength="10" value="<%= dto.getBirth()%>"/>
 							</td>
 						</tr>
 						<tr>
 							<th>국어</th>
 							<td>
-								<input type="text" name="kor" class="boxTF" maxlength="3"/>
+								<input type="text" name="kor" class="boxTF" maxlength="3" value="<%= dto.getKor()%>"/>
 							</td>
 						</tr>
 						<tr>
 							<th>영어</th>
 							<td>
-								<input type="text" name="eng" class="boxTF" maxlength="3"/>
+								<input type="text" name="eng" class="boxTF" maxlength="3" value="<%= dto.getEng()%>"/>
 							</td>
 						</tr>
 						<tr>
 							<th>수학</th>
 							<td>
-								<input type="text" name="mat" class="boxTF" maxlength="3"/>
+								<input type="text" name="mat" class="boxTF" maxlength="3" value="<%= dto.getMat()%>"/>
 							</td>
 						</tr>
 					</table>
 					<div class="box_btn">
+						<input type="hidden" name="page" value="<%= pageNum %>"/>
 						<input type="hidden" name="rows" value="<%= rows %>"/>
-						<button type="button" onclick="sendOk()" class="btn">등록하기</button>
+						<button type="button" onclick="sendOk()" class="btn">수정완료</button>
 						<button type="reset" class="btn">다시입력</button>
-						<button type="button" class="btn" onclick="javascript:location.href='list.jsp?rows=<%= rows%>'">등록취소</button>
+						<button type="button" class="btn" onclick="javascript:location.href='list.jsp?page=<%= pageNum%>&rows=<%= rows%>'">수정취소</button>
 					</div>
 				</form>
 			</div>

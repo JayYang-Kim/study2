@@ -37,7 +37,7 @@ public class MyUtil {
 			return "";
 		}
 		
-		if(list_url.indexOf("?")!= -1) { // list_url안에 ?가 존재하면
+		if(list_url.indexOf("?") != -1) { // list_url안에 ?가 존재하면
 			list_url += "&";
 		} else {
 			list_url += "?";

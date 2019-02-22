@@ -144,4 +144,144 @@ public class ScoreDAO {
 		
 		return list;
 	}
+	
+	public ScoreDTO readScroe(String hak) {
+		ScoreDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT hak, name, birth, kor, eng, mat FROM score WHERE hak = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, hak);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ScoreDTO();
+				dto.setHak(rs.getString("hak"));
+				dto.setName(rs.getString("name"));
+				dto.setBirth(rs.getDate("birth").toString());
+				dto.setKor(rs.getInt("kor"));
+				dto.setEng(rs.getInt("eng"));
+				dto.setMat(rs.getInt("mat"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+			
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+		
+		return dto;
+	}
+	
+	public void updateScore(ScoreDTO dto) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE score SET name = ?, birth = ?, kor = ?, eng = ?, mat = ? WHERE hak = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getBirth());
+			pstmt.setInt(3, dto.getKor());
+			pstmt.setInt(4, dto.getEng());
+			pstmt.setInt(5, dto.getMat());
+			pstmt.setString(6, dto.getHak());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
+	
+	public void deleteScore(String hak) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM score WHERE hak = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, hak);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
+	
+	public void deleteScore(String []haks) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		if(haks == null || haks.length == 0) {
+			return;
+		}
+		
+		try {
+			sql = "DELETE FROM score WHERE hak IN (";
+			for(int i = 0; i < haks.length; i++) {
+				sql += "?,";
+			}
+			
+			sql = sql.substring(0, sql.length() - 1);
+			sql += ")";
+			
+			pstmt = conn.prepareStatement(sql);
+			for(int i = 0; i < haks.length; i++) {
+				pstmt.setString(i + 1, haks[i]);
+			}
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
 }

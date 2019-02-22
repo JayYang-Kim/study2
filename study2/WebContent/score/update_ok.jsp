@@ -12,12 +12,13 @@
 	ScoreDAO dao = new ScoreDAO();
 	
 	int rows = Integer.parseInt(request.getParameter("rows"));
+	String pageNum = request.getParameter("page");
 
 	try {
-		dao.insertScore(dto);
+		dao.updateScore(dto);
 	} catch(Exception e) {
 		
 	}
 	
-	response.sendRedirect("list.jsp?rows=" + rows);
+	response.sendRedirect("list.jsp?page=" + pageNum + "&rows=" + rows);
 %>

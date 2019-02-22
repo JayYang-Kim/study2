@@ -57,6 +57,56 @@
 				
 				location.href = "list.jsp?rows=" + rows;
 			}
+			
+			function deleteScore(hak) {
+				if(confirm("삭제 하시겠습니까?")) {
+					var url = "delete.jsp?hak=" + hak + "&page=<%= current_page%>&rows=<%= rows%>";
+					location.href = url;
+				}
+			}
+			
+			function deleteList() {
+				var f = document.scoreListForm;
+				var cnt = 0;
+				// checkBox가 선택되어 있는지 체크
+				if(f.haks.length == undefined) { // checkBox가 하나인 경우
+					if(f.haks.checked) {
+						cnt++;
+					}
+				} else { // 여러개인 경우
+					for(var i = 0; i < f.haks.length; i++) {
+						if(f.haks[i].checked) {
+							cnt++;
+						}
+					}
+				}
+				
+				if(cnt == 0) {
+					alert("삭제할 학번을 선택해주세요.");
+					return;
+				}
+				
+				if(confirm("선택한 학번을 삭제하시겠습니까?")) {
+					f.action = "deleteList.jsp";
+					f.submit();
+				}
+			}
+			
+			function check() {
+				var f = document.scoreListForm; 
+				
+				if(f.haks == undefined) {
+					return;
+				}
+				
+				if(f.haks.length == undefined) { // checkBox가 하나인 경우
+					f.haks.checked = f.chkAll.checked;
+				} else { // 여러개인 경우
+					for(var i = 0; i < f.haks.length; i++) {
+						f.haks[i].checked = f.chkAll.checked;
+					}
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -66,9 +116,9 @@
 					<h3>성적처리</h3>
 				</div>
 				<div>
-					<button type="button" class="btn">삭제</button>
+					<button type="button" class="btn" onclick="deleteList()">삭제</button>
 				</div>
-				<form name="">
+				<form name="scoreListForm" method="post">
 					<div>
 						<table class="tb1 clear">
 							<colgroup>
@@ -81,7 +131,7 @@
 							<thead>
 								<tr>
 									<th>
-										<input type="checkbox" name="chkAll"/>
+										<input type="checkbox" name="chkAll" onclick="check()"/>
 									</th>
 									<th width="60">학번</th>
 									<th width="60">이름</th>
@@ -109,8 +159,8 @@
 										<td><%= dto.getTot() %></td>
 										<td><%= dto.getAve() %></td>
 										<td>
-											<a href="update.jsp?hak=<%= dto.getHak()%>">수정</a>
-											<a href="deleteScore('<%= dto.getHak()%>')">삭제</a>
+											<a href="update.jsp?hak=<%= dto.getHak()%>&page=<%= current_page%>&rows=<%= rows%>">수정</a>
+											<a href="javascript:deleteScore('<%= dto.getHak()%>')">삭제</a>
 										</td>
 									</tr>
 								<% } %>
@@ -119,6 +169,7 @@
 					</div>
 					<div>
 						<div class="f_right">
+							<input type="hidden" name="page" value="<%= current_page %>"/>
 							<select id="rows" name="rows" onchange="changeRows()">
 								<option value="5" <%= rows == 5 ? "selected='selected'" : "" %>>5개씩 출력</option>
 								<option value="10" <%= rows == 10 ? "selected='selected'" : "" %>>10개씩 출력</option>
@@ -133,7 +184,7 @@
 					</div>
 				</form>
 				<div class="t_right">
-					<button type="button" class="btn" onclick="javascript:location.href='write.jsp'">등록하기</button>
+					<button type="button" class="btn" onclick="javascript:location.href='write.jsp?rows=<%= rows%>'">등록하기</button>
 				</div>
 			</div>
 		</div>
