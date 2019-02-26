@@ -277,7 +277,25 @@ public class BoardServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+		
+		BoardDAO dao = new BoardDAO();
+		
+		BoardDTO dto = dao.readBoard(num);
+		
+		if(dto == null) {
+			resp.sendRedirect(cp + "/sbbs/list.do?page=" + page);
+			return;
+		}
+		
 		req.setAttribute("mode", "update");
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
 		forward(req, resp, "/WEB-INF/views/bbs/created.jsp");
 	}
 	
@@ -291,7 +309,20 @@ public class BoardServlet extends HttpServlet {
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
 		
-		resp.sendRedirect(cp + "/sbbs/list.do");
+		BoardDAO dao = new BoardDAO();
+		BoardDTO dto = new BoardDTO();
+		
+		dto.setNum(Integer.parseInt(req.getParameter("num")));
+		dto.setSubject(req.getParameter("subject"));
+		dto.setName(req.getParameter("name"));
+		dto.setContent(req.getParameter("content"));
+		dto.setPwd(req.getParameter("pwd"));
+		
+		dao.updateBoard(dto);
+		
+		String page = req.getParameter("page");
+		
+		resp.sendRedirect(cp + "/sbbs/list.do?page=" + page);
 	}
 	
 	/**
@@ -307,29 +338,10 @@ public class BoardServlet extends HttpServlet {
 		int num = Integer.parseInt(req.getParameter("num"));
 		String pageNum = req.getParameter("page");
 		
-		String searchKey = req.getParameter("searchKey");
-		// tomcat에서는 값을 받아올때 디코딩이 된 상태이다.
-		// 다른 WAS에서는 값을 받아올때 인코딩만 되어있는 상태이다.
-		String searchValue = req.getParameter("searchValue"); 
-		
-		if(searchKey == null) {
-		   searchKey = "subject";
-		   searchValue = "";
-		}
-		
-		// 인코딩 > 디코딩 처리
-		searchValue = URLDecoder.decode(searchValue, "UTF-8");
-		
-		String query = "page=" + pageNum;
-		
-		if(searchValue.length() != 0) {
-		   query += "&searchKey=" + searchKey + "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
-		}
-		
 		BoardDAO dao = new BoardDAO();
 		
 		dao.deleteBoard(num);
 		
-		resp.sendRedirect(cp + "/sbbs/list.do?" + query);
+		resp.sendRedirect(cp + "/sbbs/list.do?page=" + pageNum);
 	}
 }

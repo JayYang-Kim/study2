@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>study</title>
-<link rel="stylesheet" href="/WEF-INF/resources/common.css" type="text/css"/>
+<%-- <link rel="stylesheet" href="<%=cp%>/resources/common.css" type="text/css"/> --%>
 <style type="text/css">
 *{
     margin: 0; padding: 0;
