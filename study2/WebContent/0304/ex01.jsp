@@ -28,21 +28,42 @@
 			/* $(function() {
 				alert("HellO World");
 			}); */
-
-			jQuery(function() {
+			//document.getElementById("layout").innerHTML = "<b>하이</b>"; // [에러]
+			
+			// window.onload는 중복으로 생성될 경우 소스보기 했을때 제일 하단에 있는 onload가 실행된다.
+			/* window.onload = function() {
+				document.getElementById("layout").innerHTML = "<b>하이</b>";
+				alert("방가");
+			} */
+			
+			/* jQuery(function() {
 				alert("HellO World");
-			});
+			}); */
 			
 			/* $(function() {
 				alert("HellO World2");
 			}); */
 			
-			jQuery(function() {
+			/* jQuery(function() {
 				alert("HellO World2");
+			}); */
+			
+			// 해당 페이지를 그릴 준비가 완료 되었을때 실행
+			// 방법 - 1
+			$(document).ready(function() {
+				//document.getElementById("layout").innerHTML = "<b>하이</b>";
+				//layout.innerHTML = "<b>하이</b>"; // id가 중복될 경우가 적어서 오류는 안날 수 있지만 변수명과 중복될 수 있기 때문에 사용을 권장하지 않는다.
+				$("#layout").html("<br/><b>안녕</b>");
+				alert("방가");
+			});
+			// 방법 - 2
+			$(function() {
+				$("#layout").html("<br/><b>안녕</b>");
+				alert("방가");
 			});
 		</script>
 	</head>
 	<body>
-	
+		<div id="layout"></div>
 	</body>
 </html>
