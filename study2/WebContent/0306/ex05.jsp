@@ -11,23 +11,35 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		
 		<script type="text/javascript">
 			$(function(){
-				$("#subject > div").click(function(){
-					//console.log($(this));
-					var num = $(this).attr("data-num");
-					alert(num + $(this).html());
+				$("#btn1").click(function(){
+					var s = "<p><button class='btn'>확인</button></p>";
+					$("#layout").append(s);
+				});
+				
+				// 새로 추가된 .btn들은 이벤트가 등록된 후 추가되었기 때문에 이벤트 실행이 불가
+				// 동적으로 등록된 버튼들은 이벤트 처리가 되지 않는다.
+				/* $(".btn").click(function(){
+					alert("안녕");
+				}); */
+				
+				$("body").on("click", ".btn", function(){
+					alert("안녕");
 				});
 			});
 		</script>
 	</head>
 	<body>
-		<div id="subject">
-			<div data-num="1">자바</div>
-			<div data-num="2">스프링</div>
-			<div data-num="3">자바스크립트</div>
-			<div data-num="4">HTML</div>
-			<div data-num="5">CSS</div>
+		<h3>이벤트</h3>
+		
+		<div id="layout">
+			<p><button class='btn'>확인</button></p>
 		</div>
+			
+		<p>
+			<button type="button" id="btn1">추가</button>
+		</p>
 	</body>
 </html>

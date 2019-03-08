@@ -13,21 +13,18 @@
 		<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$("#subject > div").click(function(){
-					//console.log($(this));
-					var num = $(this).attr("data-num");
-					alert(num + $(this).html());
-				});
+				$("#tabs").tabs();
 			});
 		</script>
 	</head>
 	<body>
-		<div id="subject">
-			<div data-num="1">자바</div>
-			<div data-num="2">스프링</div>
-			<div data-num="3">자바스크립트</div>
-			<div data-num="4">HTML</div>
-			<div data-num="5">CSS</div>
+		<h3>UI</h3>
+		<div id="tabs">
+			<ul>
+				<li><a href="t1.jsp"><span>처음</span></a></li>
+				<li><a href="t2.jsp"><span>자바</span></a></li>
+				<li><a href="t3.jsp"><span>끝</span></a></li>
+			</ul>
 		</div>
 	</body>
 </html>

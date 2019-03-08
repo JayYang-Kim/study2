@@ -11,23 +11,27 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		
 		<script type="text/javascript">
 			$(function(){
-				$("#subject > div").click(function(){
-					//console.log($(this));
-					var num = $(this).attr("data-num");
-					alert(num + $(this).html());
-				});
-			});
+				var s;
+				s = $("#div1").html();
+				//s = $("#div1").text();
+				
+				//alert(s);
+				
+				//$("#div2").text(s);
+				$("#div2").html(s);
+			})
 		</script>
 	</head>
 	<body>
-		<div id="subject">
-			<div data-num="1">자바</div>
-			<div data-num="2">스프링</div>
-			<div data-num="3">자바스크립트</div>
-			<div data-num="4">HTML</div>
-			<div data-num="5">CSS</div>
+		<h3>속성</h3>
+		<div id="div1">
+			<span>안녕<b>반가워요</b></span>
+			<p>또 만나요</p>
+		</div>
+		<div id="div2">
 		</div>
 	</body>
 </html>

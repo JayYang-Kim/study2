@@ -7,8 +7,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<!-- CDN / jQuery -->
-		<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<!-- CDN / jQuery UI -->
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
